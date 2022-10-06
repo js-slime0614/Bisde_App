@@ -50,7 +50,7 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      scrollDirection: Axis.vertical,
+      scrollDirection: Axis.horizontal,
       children: [
         SizedBox.expand(
           child: Container(
@@ -236,40 +236,12 @@ class Dot extends StatelessWidget {
   }
 }
 
+
 class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image:DecorationImage(
-          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.dstATop),
-          image: AssetImage('tli_logo.jpg'), fit:BoxFit.cover,
-        ),
-            color: Color(0xff503061),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0.0,
-          title: Image.asset('logo.png'),
-          backgroundColor: Colors.transparent,
-        ),
-        body: Row(
-          children: [
-            Container(
-              child:Text(""),
-            ),
-            Container(
-              child: Text(''),
-            )
-          ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Text(''),
-        ),
-      ),
-    );
+    return Container();
   }
 }
