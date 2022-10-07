@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -237,11 +239,87 @@ class Dot extends StatelessWidget {
 }
 
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
 
+class _MainPageState extends State<MainPage> {
+
+  Widget PageTextLoader(int number) {
+    switch(number) {
+      case 1:
+        return Container(
+          child: Column(
+            children: [
+              Icon(Icons.keyboard_double_arrow_up),
+              Text("티엘아이", style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w500,
+                color: Colors.white
+              ), )
+            ],
+          ),
+        );
+        break;
+      case 2:
+        return Container();
+        break;
+      case 3:
+        return Container();
+        break;
+      default:
+        return Container();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              title: Image.asset('logo.png',),
+            ),
+            body: Container(
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: PageView(
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        //3개 페이지
+                        Flexible(
+                            flex: 1,
+                            child:Container(
+                              child: Image.asset('tli_logo.jpg',),
+                            ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex:1,
+                    child: Column(
+                      children: [
+                        //텍스트 넣기
+                        PageTextLoader(1),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            bottomNavigationBar: BottomAppBar(
+              child: ElevatedButton(
+                onPressed: () {
+                  //페이지이동 구현
+
+                },
+                child: Text('종료'),
+              ),
+            ),
+    );
   }
 }
