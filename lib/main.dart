@@ -1,6 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -246,36 +245,78 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  Widget PageTextLoader(int number) {
-    switch(number) {
+  final List<Widget> _list = [
+    Flexible(
+      flex: 1,
+      child:Container(
+        margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+        color: Colors.blue,
+        child: CircleAvatar(
+          backgroundImage: AssetImage('tli_logo.jpg')
+        ),
+      ),
+    ),
+    Flexible(
+      flex: 1,
+      child:Container(
+        margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+        color: Colors.pinkAccent,
+        child: CircleAvatar(
+          backgroundImage: AssetImage('sm_logo.png'),
+        ),
+      ),
+    ),
+    Flexible(
+      flex: 1,
+      child:Container(
+        margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+        color: Colors.deepOrangeAccent,
+        child: CircleAvatar(
+          backgroundImage: AssetImage('sago_logo.png'),
+        ),
+      ),
+    )
+  ];
+
+  Widget PageTextLoader(int _currentPage) {
+
+    switch(_currentPage) {
       case 1:
         return Container(
           child: Column(
             children: [
-              Icon(Icons.keyboard_double_arrow_up),
+              Icon(Icons.keyboard_arrow_up),
               Text("티엘아이", style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w500,
                 color: Colors.white
-              ), )
+              ),
+              )
             ],
           ),
         );
         break;
       case 2:
-        return Container();
+        return Container(
+          child: Text('에스앰'),
+        );
         break;
       case 3:
-        return Container();
+        return Container(
+          child: Text('사조산업'),
+        );
         break;
       default:
-        return Container();
+        return Container(
+          child: Text('오류인듯'),
+        );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            backgroundColor: Color(0xff503061),
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0.0,
@@ -286,25 +327,22 @@ class _MainPageState extends State<MainPage> {
                 children: [
                   Flexible(
                     flex: 1,
-                    child: PageView(
+                    child: PageView.builder(
+                      controller: PageController(viewportFraction: 0.35),
+                      onPageChanged:PageTextLoader,
                       scrollDirection: Axis.vertical,
-                      children: [
-                        //3개 페이지
-                        Flexible(
-                            flex: 1,
-                            child:Container(
-                              child: Image.asset('tli_logo.jpg',),
-                            ),
-                        )
-                      ],
+                      itemBuilder: (context, index) {
+                        return Container(
+                          child: _list[index % _list.length],
+                        );
+                      }
                     ),
                   ),
                   Flexible(
                     flex:1,
                     child: Column(
                       children: [
-                        //텍스트 넣기
-                        PageTextLoader(1),
+
                       ],
                     ),
                   )
