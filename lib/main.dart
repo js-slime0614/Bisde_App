@@ -238,65 +238,149 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  final PageController listPageController = new PageController(initialPage: 12,viewportFraction: 0.33);
+  final PageController listPageController = new PageController(keepPage:true,initialPage: 12,viewportFraction: 0.33);
   int textIdx = 0;
-  final List<Widget> _list = [
-    Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.horizontal(right: Radius.circular(250)),
-        color: Colors.blue,
-      ),
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: Container(
-        padding: EdgeInsets.all(50),
-        child: GestureDetector(
-          child: Hero(
-            tag: 'tliimage',
-            child: CircleAvatar(
-              backgroundImage: AssetImage('tli_logo.jpg'),
-              ),
-          ),
-          onTap: () {
-             Get.to(() => Tli_Page());
-            })
-        ),
-      ),
-    Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.horizontal(right: Radius.circular(250)),
-        color: Colors.pinkAccent,
-      ),
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: Container(
-        padding: EdgeInsets.all(50),
-        child: CircleAvatar(
-                backgroundImage: AssetImage('sm_logo.png'),
-              ),
-      ),
-    ),
-    Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.horizontal(right: Radius.circular(250)),
-        color: Colors.orangeAccent,
-      ),
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: Container(
-        padding: EdgeInsets.all(50),
-        child: GestureDetector(
-            child: Hero(
-              tag: 'sagoimage',
-              child: CircleAvatar(
-                backgroundImage: AssetImage('sago_logo.png'),
+  bool tlimargin = true, smmargin = false, sagomargin = false;
+
+  void setMarginValues(int currentPage) {
+    if (currentPage == 0) {
+      tlimargin = true;
+      sagomargin = false;
+      smmargin = false;
+    } else if (currentPage == 1) {
+      sagomargin = true;
+      tlimargin = false;
+      smmargin = false;
+    } else {
+      smmargin = true;
+      tlimargin = false;
+      sagomargin = false;
+    }
+  }
+  Container _list(BuildContext context,int index) {
+    index = index % 3;
+    if (index == 0) {
+      return
+        Container(
+          child: AnimatedPadding(
+            padding: tlimargin ? EdgeInsets.fromLTRB(0, 0, 0, 0) : EdgeInsets.fromLTRB(0, 0, 200, 0),
+            duration: Duration(milliseconds:70),
+            curve:Curves.easeIn,
+            child: Container(
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.horizontal(right: Radius.circular(250)),
+                color: Colors.blue,
+                ),
+              child: Container(
+                  padding: EdgeInsets.all(50),
+                  child: GestureDetector(
+                      child: Hero(
+                        tag: index,
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage('tli_logo.jpg'),
+                        ),
+                      ),
+                      onTap: () {
+                        if (listPageController.page! % 3 == 0) {
+                          Get.to(() => Tli_Page());
+                        } else {
+                          if (listPageController.page! % 3 == 2) {
+                          listPageController.jumpToPage(
+                              (listPageController.page! % 3).toInt() + 9);
+                        }else {
+                            listPageController.jumpToPage(
+                                (listPageController.page! % 3).toInt() + 12);
+                          }
+                        listPageController.animateToPage(12, duration: Duration(milliseconds: 300), curve: Curves.decelerate);
+                        }
+                      })
               ),
             ),
-            onTap: () {
-              Get.to(() => Sago_Page());
-            })
-      ),
-    ),
-  ];
+          ),
+        );
+    }
+    else if ( index == 2) {
+      return Container(
+        child: AnimatedPadding(
+          padding: smmargin ? EdgeInsets.fromLTRB(0, 0, 0, 0) : EdgeInsets.fromLTRB(0, 0, 200, 0),
+          duration: Duration(milliseconds:70),
+          curve:Curves.easeIn,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.horizontal(right: Radius.circular(250)),
+              color: Colors.pinkAccent,
+            ),
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: Container(
+              padding: EdgeInsets.all(50),
+              child: GestureDetector(
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage('sm_logo.png'),
+                    ),
+                  onTap: () {
+                    if (listPageController.page! % 3 == 2) {
+                      Get.to(() => Sm_Page());
+                    } else {
+                      if (listPageController.page! % 3 == 0) {
+                        listPageController.jumpToPage(
+                            (listPageController.page! % 3).toInt() + 15);
+                      }else {
+                        listPageController.jumpToPage(
+                            (listPageController.page! % 3).toInt() + 12);
+                      }
+                      listPageController.animateToPage(14, duration: Duration(milliseconds: 300), curve: Curves.decelerate);
+                    }
+                  }
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    else {
+      return Container(
+        child: AnimatedPadding(
+          padding: sagomargin ? EdgeInsets.fromLTRB(0, 0, 0, 0) : EdgeInsets.fromLTRB(0, 0, 200, 0),
+          duration: Duration(milliseconds:70),
+          curve:Curves.easeIn,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.horizontal(right: Radius.circular(250)),
+              color: Colors.orangeAccent,
+            ),
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: Container(
+              padding: EdgeInsets.all(50),
+              child: GestureDetector(
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage('sago_logo.png'),
+                    ),
+                  onTap: () {
+                    if ( listPageController.page! % 3 == 1) {
+                      Get.to(() => Sago_Page());
+                    } else {
+                      if (listPageController.page! % 3 == 1) {
+                        listPageController.jumpToPage(
+                            (listPageController.page! % 3).toInt() + 9);
+                      }else {
+                        listPageController.jumpToPage(
+                            (listPageController.page! % 3).toInt() + 12);
+                      }
+                      listPageController.animateToPage(13, duration: Duration(milliseconds: 300), curve: Curves.decelerate);
+
+                    }
+                  }
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
   final List<Widget> _textLoader = [
     Container(
+      margin: EdgeInsets.fromLTRB(0, 400, 50, 0),
       child: Align(
         alignment: Alignment.bottomRight,
         child: Column(
@@ -327,37 +411,7 @@ class _MainPageState extends State<MainPage> {
       ),
     ),
     Container(
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: Column(
-          children: const [
-            Align(alignment:Alignment.bottomRight,child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Icon(Icons.keyboard_arrow_up),
-            )),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text("에스앰", style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w500,
-                color: Colors.white
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text("얼라인파트너스\n22년 3월 31일",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 15
-                  )
-              ),
-            )
-          ],
-        ),
-      ),
-    ),
-    Container(
+      margin: EdgeInsets.fromLTRB(0, 400, 50, 0),
       child: Align(
         alignment: Alignment.bottomRight,
         child: Column(
@@ -377,7 +431,39 @@ class _MainPageState extends State<MainPage> {
             ),
             Align(
               alignment: Alignment.bottomRight,
-              child: Text('소액주주연대\n22년 3월 24일',
+              child: Text("소액주주연대\n22년 3월 24일",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      color: Colors.white, fontSize: 15
+                  )
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+    Container(
+      margin: EdgeInsets.fromLTRB(0, 400, 50, 0),
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: Column(
+          children: const [
+            Align(alignment:Alignment.bottomRight,child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Icon(Icons.keyboard_arrow_up),
+            )),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text("에스앰", style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w500,
+                color: Colors.white
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text('얼라인파트너스\n22년 3월 31일',
                 textAlign: TextAlign.right,
                 style: TextStyle(
                     color: Colors.white, fontSize: 15
@@ -412,12 +498,13 @@ class _MainPageState extends State<MainPage> {
                       onPageChanged:(int currentPage) {
                         setState(() {
                           textIdx = currentPage % 3;
+                          setMarginValues(currentPage % 3);
                         });
                       },
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) {
                         return Container(
-                          child: _list[index % _list.length],
+                          child: _list(context, index),
                         );
                       }
                     ),
@@ -435,13 +522,17 @@ class _MainPageState extends State<MainPage> {
                 child: TextButton(
                   child: Text('종료'),
                   onPressed: () {
-                    Navigator.push(context, 
-                    MaterialPageRoute(builder: (context) => Tli_Page())
-                    );
-                  },
-                ),
-              )
-            ),
+                    if (listPageController.page! % 3 == 0) {
+                      Get.to(() => Tli_Page());
+                    } else if (listPageController.page! % 3 == 1) {
+                      Get.to(() => Sago_Page());
+                    } else {
+                      Get.to(() => Sm_Page());
+                    }
+                  }
+                  )
+              ),
+            )
     );
   }
 }
@@ -473,7 +564,7 @@ class Tli_Page extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Hero(
-                    tag: 'tliimage',
+                    tag: 0,
                     child: CircleAvatar(
                       backgroundImage: AssetImage('tli_logo.jpg'),
                       radius: 10
@@ -769,7 +860,7 @@ class Sm_Page extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Hero(
-                      tag: 'smimage',
+                      tag: 2,
                       child: CircleAvatar(
                           backgroundImage: AssetImage('sm_logo.png'),
                           radius: 10
@@ -1253,7 +1344,7 @@ class Sago_Page extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Hero(
-                    tag: 'sagoimage',
+                    tag: 1,
                     child: CircleAvatar(
                         backgroundImage: AssetImage('sago_logo.png'),
                         radius: 10
