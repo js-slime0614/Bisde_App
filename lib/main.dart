@@ -283,7 +283,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                       onTap: () {
                         if (listPageController.page! % 3 == 0) {
-                          Get.to(() => Tli_Page());
+                          Get.to(() => Tli_Page(index: index,));
                         } else {
                           if (listPageController.page! % 3 == 2) {
                           listPageController.jumpToPage(
@@ -320,7 +320,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                   onTap: () {
                     if (listPageController.page! % 3 == 2) {
-                      Get.to(() => Sm_Page());
+                      Get.to(() => Sm_Page(index: index,));
                     } else {
                       if (listPageController.page! % 3 == 0) {
                         listPageController.jumpToPage(
@@ -338,7 +338,7 @@ class _MainPageState extends State<MainPage> {
         ),
       );
     }
-    else {
+    else if ( index == 1){
       return Container(
         child: AnimatedPadding(
           padding: sagomargin ? EdgeInsets.fromLTRB(0, 0, 0, 0) : EdgeInsets.fromLTRB(0, 0, 200, 0),
@@ -358,7 +358,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                   onTap: () {
                     if ( listPageController.page! % 3 == 1) {
-                      Get.to(() => Sago_Page());
+                      Get.to(() => Sago_Page(index: index,));
                     } else {
                       if (listPageController.page! % 3 == 1) {
                         listPageController.jumpToPage(
@@ -376,6 +376,9 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
       );
+    }
+    else {
+        return Container();
     }
   }
   final List<Widget> _textLoader = [
@@ -523,11 +526,13 @@ class _MainPageState extends State<MainPage> {
                   child: Text('종료'),
                   onPressed: () {
                     if (listPageController.page! % 3 == 0) {
-                      Get.to(() => Tli_Page());
+                      Get.to(() => Tli_Page(index: (listPageController.page! % 3).toInt(),));
                     } else if (listPageController.page! % 3 == 1) {
-                      Get.to(() => Sago_Page());
+                      Get.to(() => Sago_Page(index: (listPageController.page! % 3).toInt(),));
+                    } else if (listPageController.page! % 3 == 2) {
+                      Get.to(() => Sm_Page(index: (listPageController.page! % 3).toInt(),));
                     } else {
-                      Get.to(() => Sm_Page());
+
                     }
                   }
                   )
@@ -538,7 +543,8 @@ class _MainPageState extends State<MainPage> {
 }
 
 class Tli_Page extends StatelessWidget {
-  const Tli_Page({Key? key}) : super(key: key);
+  final int index;
+  const Tli_Page({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -564,7 +570,7 @@ class Tli_Page extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Hero(
-                    tag: 0,
+                    tag: index,
                     child: CircleAvatar(
                       backgroundImage: AssetImage('tli_logo.jpg'),
                       radius: 10
@@ -834,7 +840,8 @@ class Tli_Page extends StatelessWidget {
   }
 }
 class Sm_Page extends StatelessWidget {
-  const Sm_Page({Key? key}) : super(key: key);
+  final int index;
+  const Sm_Page({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -860,7 +867,7 @@ class Sm_Page extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Hero(
-                      tag: 2,
+                      tag: index,
                       child: CircleAvatar(
                           backgroundImage: AssetImage('sm_logo.png'),
                           radius: 10
@@ -1318,7 +1325,8 @@ class Sm_Page extends StatelessWidget {
   }
 }
 class Sago_Page extends StatelessWidget {
-  const Sago_Page({Key? key}) : super(key: key);
+  final int index;
+  const Sago_Page({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1344,7 +1352,7 @@ class Sago_Page extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Hero(
-                    tag: 1,
+                    tag: index,
                     child: CircleAvatar(
                         backgroundImage: AssetImage('sago_logo.png'),
                         radius: 10
